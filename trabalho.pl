@@ -5,6 +5,41 @@
 %% :- implicação
 %% = equivalencia
 
+%% Rota para ganhar o jogo
+%% s. -> 
+%% s. -> 
+%% s. -> 
+%% {pegou ouro; ouro = 100 unidades} -> 
+%% w. -> 
+%% d. -> 
+%% d. -> 
+%% {pegou ouro; ouro = 200 unidades}
+%% a. -> 
+%% a. -> 
+%% w. -> 
+%% w. -> {Você ganhou o jogo}
+ 
+%% Rota para perder o jogo!
+%% s ->
+%% s ->
+%% s ->
+%% d ->
+%% O wumpus te comeu, você perdeu o jogo
+
+%% Rota para perder o jogo!
+%% d. ->
+%% d. ->
+%% s. ->
+%% d. ->
+%% s. ->
+%% Você caiu no buraco, você perdeu o jogo
+
+
+
+
+
+
+
 :- dynamic 
 ([
     var_tamanho_mundo/1,
