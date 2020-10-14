@@ -12,6 +12,7 @@
     var_actor_w/2,
     var_actor_o/2,
     var_actor_o_coletado/2,
+    var_actor_o_maximo/1,
     var_actor_a/2,
     var_user_localizacaoX/1,
     var_user_localizacaoY/1
@@ -32,6 +33,7 @@ resetar_tudo :-
     retractall(var_actor_w(_,_)),
     retractall(var_actor_o(_,_)),
     retractall(var_actor_o_coletado(_,_)),
+    retractall(var_actor_o_maximo(_)),
     retractall(var_actor_a(_,_)),
     retractall(var_user_localizacaoX(_)),
     retractall(var_user_localizacaoY(_)).
@@ -43,24 +45,23 @@ iniciar_fatos :-
     assert(var_user_ouro(0)),
     
     %% localizacao do wumpus
-    assert(var_actor_w(3,2)),
+    assert(var_actor_w(2,3)),
 
     %% localizacao do ouro
-    assert(var_actor_o(4,3)),
+    assert(var_actor_o(1,4)),
 
     %% localizacao do abismo
-    assert(var_actor_a(1,4)),
+    assert(var_actor_a(3,4)),
+
+    %% quantidade maxima de ouro que diz quando ganhou -> 
+    %% deixei 200 pq coloquei apenas dois lugares de ouro
+    assert(var_actor_o_maximo(100)),
 
     %% localizacao do usuario
     registrar_nova_localizacao(1,1).
 
 iniciar_tutorial :-
     %% tutorial escrito do que o cara pode fazer
-    writeln(' '),
-    writeln(' '),
-    writeln(' '),
-    writeln(' '),
-    writeln(' '),
     writeln('------------------ Mundo de Wumpus ------------------'),
     writeln('Seu objetivo é achar ouro e retornar vivo'),
     writeln('Seus movimentos são: w a s d').
@@ -107,10 +108,10 @@ andar(X,Y):-
                 (  
                     (   
                         %% verdade que tem wumpus
-                        (tem_wumpus(X,Y) -> (writeln('Você morreu || COMIDO POR WUMPUS'), iniciar))
+                        (tem_wumpus(X,Y) -> (writeln('O Wumpus te comeu!'), iniciar))
                         ;
                         %% ou verdade que tem abismo
-                        (tem_abismo(X,Y) -> (writeln('Você morreu || CAIU NO ABISMO DO INFERNO'), iniciar))
+                        (tem_abismo(X,Y) -> (writeln('THIS IS SPARTA!!!'), iniciar))
                     )
                     ;
                     %% OU
@@ -121,7 +122,8 @@ andar(X,Y):-
                         %% verdade de executar ouro
                         verificar_ouro(X,Y),
                         mostrar_ouro,
-                        msg_continuar
+                        verificar_se_venceu -> (writeln('VENCEU!'), iniciar)
+                        %% msg_continuar
                     )
                 )
         )
@@ -190,6 +192,7 @@ verificar_ouro(X,Y):-
         (            
             (var_actor_o(X,Y), not(var_actor_o_coletado(X,Y)))-> 
             (
+                writeln('ACHOU OURO!'),
                 var_user_ouro(OUR),
                 assert(var_actor_o_coletado(X,Y)),
                 ValorOuro is OUR+100,
@@ -197,7 +200,16 @@ verificar_ouro(X,Y):-
                 assert(var_user_ouro(ValorOuro))
             )
         )
+        ;
+        true
     ).
+
+verificar_se_venceu:-
+    var_user_localizacaoX(1),
+    var_user_localizacaoY(1),
+    var_user_ouro(OUR),
+    var_actor_o_maximo(OUR2),    
+    OUR >= OUR2.
 
 mostrar_ouro:-
     var_user_ouro(OUR),     
