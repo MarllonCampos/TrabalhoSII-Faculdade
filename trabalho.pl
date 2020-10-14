@@ -5,6 +5,9 @@
 %% :- implicação
 %% = equivalencia
 
+%% O Jogo é ganho ao pegar todos os ouros no mapa, e voltar para a posição inicial (X:1, Y:1)
+
+%% Tamanho do mapa = 5x5
 %% Rota para ganhar o jogo
 %% s. -> 
 %% s. -> 
@@ -76,7 +79,7 @@ resetar_tudo :-
 %% fatos
 iniciar_fatos :-
     %% informações do mundo    
-    assert(var_tamanho_mundo(4)),
+    assert(var_tamanho_mundo(5)),
     assert(var_user_ouro(0)),
     
     %% localizacao do wumpus
@@ -105,29 +108,72 @@ iniciar_tutorial :-
 
 %% -------------- start movimentacoes
 w :-
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
     writeln('Movimentação escolhida: Cima'),        
     var_user_localizacaoX(LXC), 
     var_user_localizacaoY(LYC),
-    NovoValor is LYC-1,
-    andar(LXC,NovoValor).
+    NovoValor is LXC-1,
+    andar(NovoValor,LYC).
+
 a :-   
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
     writeln('Movimentação escolhida: Esquerda'),    
     var_user_localizacaoX(LXE),    
     var_user_localizacaoY(LYE),
-    NovoValor is LXE-1,    
-    andar(NovoValor,LYE).
+    NovoValor is LYE-1,
+    andar(LXE,NovoValor).
+
 d :-   
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
     writeln('Movimentação escolhida: Direita'),    
     var_user_localizacaoX(LXD),    
     var_user_localizacaoY(LYD),
-    NovoValor is LXD+1,
-    andar(NovoValor,LYD).
+    NovoValor is LYD+1,
+    andar(LXD,NovoValor).
+
 s :-   
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
     writeln('Movimentação escolhida: Baixo'),    
     var_user_localizacaoX(LXB),    
     var_user_localizacaoY(LYB),
-    NovoValor is LYB+1,
-    andar(LXB,NovoValor).
+    NovoValor is LXB+1,
+    andar(NovoValor,LYB).
 
 %% -------------- start movimentacoes
 andar(X,Y):-
@@ -144,10 +190,10 @@ andar(X,Y):-
                 (  
                     (   
                         %% verdade que tem wumpus
-                        (tem_wumpus(X,Y) -> (writeln('O Wumpus te comeu!'), iniciar))
+                        (tem_wumpus(X,Y) -> (writeln('O WUMPUS TE ENGOLIU!'), iniciar))
                         ;
                         %% ou verdade que tem abismo
-                        (tem_abismo(X,Y) -> (writeln('THIS IS SPARTA!!!'), iniciar))
+                        (tem_abismo(X,Y) -> (writeln('VOCÊ CAIU NO TÁRTARO DO INFERNO!!!'), iniciar))
                     )
                     ;
                     %% OU
@@ -158,8 +204,8 @@ andar(X,Y):-
                         %% verdade de executar ouro
                         verificar_ouro(X,Y),
                         mostrar_ouro,
-                        verificar_se_venceu -> (writeln('VENCEU!'), iniciar)
-                        %% msg_continuar
+                        verificar_se_venceu -> (writeln('VENCEU!'), msg_continuar,iniciar)
+
                     )
                 )
         )
@@ -167,9 +213,9 @@ andar(X,Y):-
 
 verificar_posicao(X,Y) :-
     (X >= 1),
-    (X =< 4),
+    (X =< 5),
     (Y >= 1),
-    (Y =< 4).
+    (Y =< 5).
 
 registrar_nova_localizacao(X,Y) :-
     %% limpa localizacao antes
@@ -181,7 +227,7 @@ registrar_nova_localizacao(X,Y) :-
     assert(var_user_localizacaoY(Y)),
 
     %%  retorna mensagem
-    write('Voce está em X:'), write(X), write(' Y:'), writeln(Y).
+    write('Voce está em X:'), write(Y), write(' Y:'), writeln(X).
 
 tem_wumpus(X,Y) :-
     var_actor_w(X,Y).
@@ -207,7 +253,8 @@ verificar_percepcao(X,Y):-
         )
         ;
         (
-            writeln('Parece não ter cheiro ruim aqui!')
+            % writeln('Parece não ter cheiro ruim aqui!')
+            true
         )
 
     ),
@@ -218,7 +265,8 @@ verificar_percepcao(X,Y):-
         )
         ;
         (
-            writeln('Parece não ter brisa aqui!')
+            % writeln('Parece não ter brisa aqui!')
+            true
         )
 
     ).
@@ -252,4 +300,14 @@ mostrar_ouro:-
     write('Você carrega: '), write(OUR), writeln(' unidades de ouro').
 
 msg_continuar:-
-    writeln('Continue a jogar').
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln('REINICIANDO O PRÓXIMO JOGO'),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln(''),
+    writeln('').
