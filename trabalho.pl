@@ -45,17 +45,18 @@ iniciar_fatos :-
     assert(var_user_ouro(0)),
     
     %% localizacao do wumpus
-    assert(var_actor_w(2,3)),
+    assert(var_actor_w(2,4)),
 
     %% localizacao do ouro
+    assert(var_actor_o(3,3)),
     assert(var_actor_o(1,4)),
 
     %% localizacao do abismo
-    assert(var_actor_a(3,4)),
+    assert(var_actor_a(4,4)),
 
     %% quantidade maxima de ouro que diz quando ganhou -> 
     %% deixei 200 pq coloquei apenas dois lugares de ouro
-    assert(var_actor_o_maximo(100)),
+    assert(var_actor_o_maximo(200)),
 
     %% localizacao do usuario
     registrar_nova_localizacao(1,1).
